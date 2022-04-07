@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import ImageCrypto from "./img/imagen-criptos.png";
 import Form from "./components/Form";
 import Result from "./components/Result";
+import Spinner from "./components/Spinner";
 
 const Container = styled.div`
   max-width: 900px;
@@ -44,10 +45,13 @@ const Heading = styled.h1`
 function App() {
   const [coins, setCoins] = useState({});
   const [quoteResult, setQuoteResult] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (Object.keys(coins).length > 0) {
       const quoteCrypto = async () => {
+        setLoading(true);
+        setQuoteResult({});
         const { coin, cryptoCurrency } = coins;
         const url = `https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${cryptoCurrency}&tsyms=${coin}`;
 
@@ -55,6 +59,7 @@ function App() {
         const result = await response.json();
 
         setQuoteResult(result.DISPLAY[cryptoCurrency][coin]);
+        setLoading(false);
       };
       quoteCrypto();
     }
@@ -64,9 +69,10 @@ function App() {
     <Container>
       <Image src={ImageCrypto} alt="Cryptocurrency Image" />
       <div>
-        <Heading>Trade Cryptocurrencies Instantly</Heading>
+        <Heading>Cryptocurrencies Conversor</Heading>
         <Form setCoins={setCoins} />
         {quoteResult.PRICE && <Result quoteResult={quoteResult} />}
+        {loading && <Spinner />}
       </div>
     </Container>
   );
