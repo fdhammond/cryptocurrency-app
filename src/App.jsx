@@ -69,7 +69,7 @@ function App() {
     <Container>
       <Image src={ImageCrypto} alt="Cryptocurrency Image" />
       <div>
-        <Heading>Cryptocurrencies Conversor</Heading>
+        <Heading>Cryptocurrencies Conversor!</Heading>
         <Form setCoins={setCoins} />
         {quoteResult.PRICE && <Result quoteResult={quoteResult} />}
         {loading && <Spinner />}
